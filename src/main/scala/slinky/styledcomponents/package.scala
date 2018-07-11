@@ -1,33 +1,41 @@
 package slinky
 
-import slinky.core.{ExternalComponentWithAttributes, ExternalPropsWriterProvider, Tag, TagElement}
-import slinky.readwrite.Writer
+import org.scalajs.dom.raw.HTMLElement
+import slinky.core.{Attr, AttrPair, CustomAttribute}
 import slinky.web.html
 
 import scala.scalajs.js
 import js.JSConverters._
-import scala.scalajs.js.|
 
 package object styledcomponents {
-  private def elemHandler[P, T <: TagElement](sc: StringContext, comp: js.Function, fns: Seq[P => js.Any]): StyledComponentConstructor[P] { type TagType = T } = {
-    val jsFns = fns.map(v => ((o: js.Any) => { v(o.asInstanceOf[js.Dynamic].__.asInstanceOf[P]) }): js.Function1[js.Any, js.Any])
-    StyledComponents.button.call(
-      js.undefined,
-      sc.parts.toJSArray +: jsFns: _*
-    ).asInstanceOf[StyledComponentConstructor[P] { type TagType = T }]
-  }
-
   implicit class StyledInterpolator(val sc: StringContext) extends AnyVal {
-    def button[P](fns: (P => js.Any)*) =
-      elemHandler[P, html.button.tagType](sc, StyledComponents.button, fns)
+    def css[P](fns: InterpolationPart[P]*): InterpolatedCSS[P] = {
+      InterpolatedCSS(sc.parts, fns)
+    }
+
+    def injectGlobal[P](fns: InterpolationPart[P]*): Unit = {
+      StyledComponentsNamespace.injectGlobal.call(
+        js.undefined,
+        sc.parts.toJSArray +: fns: _*
+      )
+    }
+
+    def keyframes[P](fns: InterpolationPart[P]*): KeyframesInterpolationPart[P] = {
+      StyledComponentsNamespace.keyframes.call(
+        js.undefined,
+        sc.parts.toJSArray +: fns: _*
+      ).asInstanceOf[KeyframesInterpolationPart[P]]
+    }
   }
 
-  def styled[P](c: StyledComponentConstructor[P]): ExternalComponentWithAttributes[c.TagType] { type Props = P } = {
-    new ExternalComponentWithAttributes[c.TagType]()(new Writer[P] {
-      override def write(p: P): js.Object = js.Dynamic.literal(__ = p.asInstanceOf[js.Object])
-    }.asInstanceOf[ExternalPropsWriterProvider]) {
-      override type Props = P
-      override val component: String | js.Object = c
+  object styled {
+    def button[P]: StyledBuilder[P, html.button.tagType] = {
+      new StyledBuilder[P, html.button.tagType](StyledComponents.button.asInstanceOf[js.Object])
     }
+  }
+
+  object innerRef extends Attr {
+    @inline def :=(v: org.scalajs.dom.Element => Unit) = new AttrPair[Any]("innerRef", v)
+    @inline def :=(v: slinky.core.facade.ReactRef[org.scalajs.dom.Element]) = new AttrPair[Any]("innerRef", v)
   }
 }
