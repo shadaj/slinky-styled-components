@@ -1,5 +1,5 @@
-# slinky-styled-components
-_use [styled-components](https://www.styled-components.com/) from Slinky apps!_
+<h1 align="center">slinky-styled-components</h1>
+<p align="center"><i>use <a href="https://www.styled-components.com">styled-components</a> from Slinky apps!</i></p>
 
 <p align="center">
   <a href="https://travis-ci.com/shadaj/slinky-styled-components">
