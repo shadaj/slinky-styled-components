@@ -1,7 +1,6 @@
 package slinky
 
-import org.scalajs.dom.raw.HTMLElement
-import slinky.core.{Attr, AttrPair, CustomAttribute}
+import slinky.core.{Attr, AttrPair}
 import slinky.web.html
 
 import scala.scalajs.js
@@ -29,6 +28,10 @@ package object styledcomponents {
   }
 
   object styled {
+    def div[P]: StyledBuilder[P, html.div.tagType] = {
+      new StyledBuilder[P, html.div.tagType](StyledComponents.div.asInstanceOf[js.Object])
+    }
+
     def button[P]: StyledBuilder[P, html.button.tagType] = {
       new StyledBuilder[P, html.button.tagType](StyledComponents.button.asInstanceOf[js.Object])
     }

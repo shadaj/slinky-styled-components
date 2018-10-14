@@ -2,14 +2,37 @@ package slinky.styledcomponents
 
 import org.scalajs.dom
 import org.scalajs.dom.Element
-import org.scalajs.dom.raw.{HTMLButtonElement, HTMLElement}
+import org.scalajs.dom.raw.HTMLButtonElement
 import org.scalatest.FunSuite
 import slinky.web.ReactDOM
 import slinky.web.html.id
 import slinky.web.html.`type`
 
 class StyledComponentTest extends FunSuite {
-  test("Can construct a styled button") {
+  test("Can construct a styled button with no props") {
+    val targetElem = dom.document.createElement("div")
+    val comp = styled.button(
+      css"""
+        border-radius: 3px;
+        color: green
+      """
+    )
+
+    ReactDOM.render(
+      comp(
+        id := "testComponent"
+      ),
+      targetElem
+    )
+
+    val buttonElement = targetElem.firstElementChild.asInstanceOf[HTMLButtonElement]
+
+    assert(buttonElement.tagName.toLowerCase == "button")
+    assert(buttonElement.id == "testComponent")
+    assert(buttonElement.className.nonEmpty)
+  }
+
+  test("Can construct a styled button with some props") {
     case class Props(color: String)
     val targetElem = dom.document.createElement("div")
     val comp = styled.button[Props](
@@ -94,7 +117,7 @@ class StyledComponentTest extends FunSuite {
       }
     """
 
-    val comp = styled.button[Unit](
+    val comp = styled.button(
       css"""
         animation: 1s $fadeIn ease-out;
       """
@@ -113,14 +136,14 @@ class StyledComponentTest extends FunSuite {
 
   test("Can pass in inner ref to get DOM element") {
     val targetElem = dom.document.createElement("div")
-    val comp = styled.button[Unit](
+    val comp = styled.button(
       css""
     )
 
     var buttonElement: Element = null
 
     ReactDOM.render(
-      comp()(
+      comp(
         innerRef := (e => {
           buttonElement = e
         })
