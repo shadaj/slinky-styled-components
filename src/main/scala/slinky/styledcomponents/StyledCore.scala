@@ -1,24 +1,32 @@
 package slinky.styledcomponents
 
 import scala.scalajs.js
-import slinky.core.{ExternalComponentNoPropsWithAttributesWithRefType, ExternalComponentWithAttributesWithRefType, TagElement}
+import slinky.core.{ExternalComponentNoPropsWithAttributesWithRefType, ExternalComponentWithAttributesWithRefType, ReactComponentClass, TagElement}
+import slinky.readwrite.Writer
 
 trait StyledCore {
   def apply[TagType <: TagElement](component: ExternalComponentNoPropsWithAttributesWithRefType[TagType, _]): StyledBuilder[Any, TagType] = {
     new StyledBuilder[Any, TagType](
-      StyledComponents.asInstanceOf[js.Function].call(
-        js.undefined,
+      StyledComponents(
         component.component.asInstanceOf[js.Any]
-      ).asInstanceOf[js.Object]
+      )
     )
   }
 
   def apply[TagType <: TagElement](component: ExternalComponentWithAttributesWithRefType[TagType, _]): StyledBuilder[component.Props, TagType] = {
     new StyledBuilder[component.Props, TagType](
-      StyledComponents.asInstanceOf[js.Function].call(
-        js.undefined,
+      StyledComponents(
         component.component.asInstanceOf[js.Any]
-      ).asInstanceOf[js.Object]
+      )
+    )
+  }
+
+  def apply[P](clazz: ReactComponentClass[P])(implicit propsWriter: Writer[P]): StyledBuilder[P, TagElement] = {
+    new StyledBuilder[P, TagElement](
+      StyledComponents(
+        clazz.asInstanceOf[js.Any]
+      ),
+      propsWriter
     )
   }
 }

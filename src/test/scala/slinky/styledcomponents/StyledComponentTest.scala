@@ -4,8 +4,20 @@ import org.scalajs.dom
 import org.scalajs.dom.Element
 import org.scalajs.dom.raw.HTMLButtonElement
 import org.scalatest.FunSuite
+
+import slinky.core.StatelessComponent
+import slinky.core.annotations.react
+import slinky.core.facade.ReactElement
 import slinky.web.ReactDOM
-import slinky.web.html.{`type`, id}
+import slinky.web.html.{`type`, className, h1, id}
+
+@react class TestComponentToExtend extends StatelessComponent {
+  case class Props(a: Int, className: String = "")
+
+  override def render(): ReactElement = {
+    h1(className := props.className)(props.a.toString)
+  }
+}
 
 class StyledComponentTest extends FunSuite {
   test("Can construct a styled button with no props") {
@@ -212,6 +224,26 @@ class StyledComponentTest extends FunSuite {
 
     assert(buttonElement.tagName.toLowerCase == "button")
     assert(buttonElement.id == "testComponent")
+    assert(buttonElement.className.nonEmpty)
+  }
+
+  test("Can extend a Slinky component with additional styles") {
+    val targetElem = dom.document.createElement("div")
+
+    val extendedStyled = styled(TestComponentToExtend).apply[TestComponentToExtend.Props](
+      css"""
+        color: green;
+      """
+    )
+
+    ReactDOM.render(
+      extendedStyled(TestComponentToExtend.Props(123)),
+      targetElem
+    )
+
+    val buttonElement = targetElem.firstElementChild.asInstanceOf[HTMLButtonElement]
+
+    assert(buttonElement.tagName.toLowerCase == "h1")
     assert(buttonElement.className.nonEmpty)
   }
 }

@@ -12,7 +12,9 @@ trait StyledComponentConstructor[P] extends js.Object {
 
 @JSImport("styled-components", JSImport.Default)
 @js.native
-object StyledComponents extends js.Object
+object StyledComponents extends js.Function1[js.Any, js.Object] {
+  override def apply(arg1: js.Any): js.Object = js.native
+}
 
 @JSImport("styled-components", JSImport.Namespace)
 @js.native

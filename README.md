@@ -44,7 +44,7 @@ div(
 If we want to calculate styles based on some dynamic data, we can use props:
 ```scala
 case class StyledButtonProps(color: String)
-val styledButtonDynamicData = styled.button[Props](
+val styledButtonDynamicData = styled.button(
   css"""
     color: ${p: Props => p.color}
   """
@@ -55,6 +55,51 @@ div(
     "Hello, this button is pink!"
   )
 )
+```
+
+## Extending Components
+You can extend existing components with additional styles. For example, you could extend a styled button with more CSS:
+
+```scala
+case class Props(color: String)
+
+val baseStyled = styled.button(
+  css"""
+    border-radius: 3px;
+    color: ${p: Props => p.color};
+  """
+)
+
+val extendedStyled = styled(baseStyled)(
+  css"""
+    font-size: 10px;
+    background-color: ${p: Props => p.color}
+  """
+)
+```
+
+You can also extend Slinky components to assign them more styles, with the requirement that the component must take a `className` prop.
+
+```scala
+@react class IntHeaderComponent extends StatelessComponent {
+  case class Props(number: Int, className: String = "")
+
+  override def render(): ReactElement = {
+    h1(className := props.className)(props.number.toString)
+  }
+}
+
+// ...
+
+val styledIntHeader = styled(IntHeaderComponent).apply[IntHeaderComponent.Props](
+  css"""
+    color: green;
+  """
+)
+
+// ...
+
+styledIntHeader(IntHeaderComponent.Props(123))
 ```
 
 ## CSS Animations

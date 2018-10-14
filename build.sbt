@@ -18,6 +18,8 @@ jsDependencies += RuntimeDOM % Test
 scalacOptions += "-P:scalajs:sjsDefinedByDefault"
 scalacOptions += "-Ywarn-unused-import"
 
+addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
+
 // Source Generation -----------------------------
 // from styled-components/src/utils/domElements.js
 val allHTMLTags = List(
