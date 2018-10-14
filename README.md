@@ -12,9 +12,11 @@
 </p>
 
 ## Getting Started
-Add the library to your build:
+Add the library to your build and `styled-components` for Webpack bundling:
 ```scala
 libraryDependencies += "me.shadaj" %%% "slinky-styled-components" % "0.1.0"
+
+npmDependencies += "styled-components" -> "3.4.10"
 ```
 
 ## Creating Components
