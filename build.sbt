@@ -167,12 +167,12 @@ sourceGenerators in Compile += Def.task {
   
   val htmlTagsSource = allHTMLTags.map { t =>
     val escaped = if (needsEscape.contains(t)) "`" + t + "`" else t
-    s"""def ${escaped}[P] = new StyledBuilder[P, html.${escaped}.tagType](styledDictionary("${t}"))"""
+    s"""def ${escaped} = new StyledBuilder[Any, html.${escaped}.tagType](styledDictionary("${t}"))"""
   }.mkString("\n")
   
   val svgTagsSource = allSVGTags.map { t =>
     val escaped = if (needsEscape.contains(t)) "`" + t + "`" else t
-    s"""def ${escaped}[P] = new StyledBuilder[P, svg.${escaped}.tagType](styledDictionary("${t}"))"""
+    s"""def ${escaped} = new StyledBuilder[Any, svg.${escaped}.tagType](styledDictionary("${t}"))"""
   }.mkString("\n")
 
   IO.write(
@@ -180,7 +180,7 @@ sourceGenerators in Compile += Def.task {
     s"""package slinky.styledcomponents
        |import scala.scalajs.js
        |import slinky.web.{html, svg}
-       |object styled{
+       |object styled extends StyledCore {
        |val styledDictionary = StyledComponents.asInstanceOf[js.Dictionary[js.Object]]
        |$htmlTagsSource
        |$svgTagsSource

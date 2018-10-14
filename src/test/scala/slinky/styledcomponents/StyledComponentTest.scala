@@ -5,8 +5,7 @@ import org.scalajs.dom.Element
 import org.scalajs.dom.raw.HTMLButtonElement
 import org.scalatest.FunSuite
 import slinky.web.ReactDOM
-import slinky.web.html.id
-import slinky.web.html.`type`
+import slinky.web.html.{`type`, id}
 
 class StyledComponentTest extends FunSuite {
   test("Can construct a styled button with no props") {
@@ -14,7 +13,7 @@ class StyledComponentTest extends FunSuite {
     val comp = styled.button(
       css"""
         border-radius: 3px;
-        color: green
+        color: green;
       """
     )
 
@@ -35,15 +34,15 @@ class StyledComponentTest extends FunSuite {
   test("Can construct a styled button with some props") {
     case class Props(color: String)
     val targetElem = dom.document.createElement("div")
-    val comp = styled.button[Props](
+    val comp = styled.button(
       css"""
         border-radius: 3px;
-        color: ${p: Props => p.color}
+        color: ${p: Props => p.color};
       """
     )
 
     ReactDOM.render(
-      comp(Props(color = "pink"))(
+      comp.apply(Props(color = "pink"))(
         id := "testComponent"
       ),
       targetElem
@@ -59,12 +58,12 @@ class StyledComponentTest extends FunSuite {
   test("Can construct a styled button with attrs") {
     case class Props(color: String)
     val targetElem = dom.document.createElement("div")
-    val comp = styled.button[Props].attrs(
+    val comp = styled.button.attrs(
       `type` := "reset"
     )(
       css"""
         border-radius: 3px;
-        color: ${p: Props => p.color}
+        color: ${p: Props => p.color};
       """
     )
 
@@ -86,11 +85,11 @@ class StyledComponentTest extends FunSuite {
   test("Can construct a styled button with interpolated CSS") {
     case class Props(color: String)
     val targetElem = dom.document.createElement("div")
-    val comp = styled.button[Props](
+    val comp = styled.button(
       css"""
         border-radius: 3px;
         ${
-          css"color: ${p: Props => p.color}"
+          css"color: ${p: Props => p.color};"
         }
       """
     )
@@ -112,6 +111,7 @@ class StyledComponentTest extends FunSuite {
       0% {
         opacity: 0;
       }
+      
       100% {
         opacity: 1;
       }
@@ -152,5 +152,66 @@ class StyledComponentTest extends FunSuite {
     )
 
     assert(buttonElement.tagName.toLowerCase == "button")
+  }
+
+  test("Can extend a styled button with additional styles") {
+    val targetElem = dom.document.createElement("div")
+    val baseStyled = styled.button(
+      css"""
+        border-radius: 3px;
+        color: green;
+      """
+    )
+
+    val extendedStyled = styled(baseStyled)(
+      css"""
+        font-size: 10px;
+      """
+    )
+
+    ReactDOM.render(
+      extendedStyled(
+        id := "testComponent"
+      ),
+      targetElem
+    )
+
+    val buttonElement = targetElem.firstElementChild.asInstanceOf[HTMLButtonElement]
+
+    assert(buttonElement.tagName.toLowerCase == "button")
+    assert(buttonElement.id == "testComponent")
+    assert(buttonElement.className.nonEmpty)
+  }
+
+  test("Can extend a styled button taking props with additional styles") {
+    case class Props(color: String)
+
+    val targetElem = dom.document.createElement("div")
+    val baseStyled = styled.button(
+      css"""
+        border-radius: 3px;
+        color: ${p: Props => p.color};
+      """
+    )
+
+    val extendedStyled = styled(baseStyled)(
+      css"""
+        font-size: 10px;
+        background-color: ${p: Props => p.color}
+      """
+    )
+
+    ReactDOM.render(
+      extendedStyled(Props("green"))(
+        id := "testComponent"
+      ),
+      targetElem
+    )
+
+    val buttonElement = targetElem.firstElementChild.asInstanceOf[HTMLButtonElement]
+
+    assert(buttonElement.tagName.toLowerCase == "button")
+    assert(buttonElement.id == "testComponent")
+    assert(buttonElement.className.nonEmpty)
   }
 }
