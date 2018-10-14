@@ -1,7 +1,6 @@
 package slinky
 
 import slinky.core.{Attr, AttrPair}
-import slinky.web.html
 
 import scala.scalajs.js
 import js.JSConverters._
@@ -24,16 +23,6 @@ package object styledcomponents {
         js.undefined,
         sc.parts.toJSArray +: fns: _*
       ).asInstanceOf[KeyframesInterpolationPart[P]]
-    }
-  }
-
-  object styled {
-    def div[P]: StyledBuilder[P, html.div.tagType] = {
-      new StyledBuilder[P, html.div.tagType](StyledComponents.div.asInstanceOf[js.Object])
-    }
-
-    def button[P]: StyledBuilder[P, html.button.tagType] = {
-      new StyledBuilder[P, html.button.tagType](StyledComponents.button.asInstanceOf[js.Object])
     }
   }
 

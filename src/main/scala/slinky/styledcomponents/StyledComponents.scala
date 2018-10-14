@@ -12,10 +12,7 @@ trait StyledComponentConstructor[P] extends js.Object {
 
 @JSImport("styled-components", JSImport.Default)
 @js.native
-object StyledComponents extends js.Object {
-  val div: js.Function = js.native
-  val button: js.Function = js.native
-}
+object StyledComponents extends js.Object
 
 @JSImport("styled-components", JSImport.Namespace)
 @js.native
