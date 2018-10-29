@@ -25,9 +25,4 @@ package object styledcomponents {
       ).asInstanceOf[KeyframesInterpolationPart[P]]
     }
   }
-
-  object innerRef extends Attr {
-    @inline def :=(v: org.scalajs.dom.Element => Unit) = new AttrPair[Any]("innerRef", v)
-    @inline def :=(v: slinky.core.facade.ReactRef[org.scalajs.dom.Element]) = new AttrPair[Any]("innerRef", v)
-  }
 }

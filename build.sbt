@@ -10,9 +10,9 @@ libraryDependencies += "me.shadaj" %%% "slinky-web" % "0.5.0"
 
 libraryDependencies += "org.scalatest" %%% "scalatest" % "3.0.3" % Test
 
-npmDependencies in Test += "react" -> "16.4.0"
-npmDependencies in Test += "react-dom" -> "16.4.0"
-npmDependencies in Test += "styled-components" -> "3.4.10"
+npmDependencies in Test += "react" -> "16.6.0"
+npmDependencies in Test += "react-dom" -> "16.6.0"
+npmDependencies in Test += "styled-components" -> "4.0.2"
 jsDependencies += RuntimeDOM % Test
 
 scalacOptions += "-P:scalajs:sjsDefinedByDefault"
