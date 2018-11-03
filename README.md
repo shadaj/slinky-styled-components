@@ -8,7 +8,9 @@
   <a href="https://www.scala-js.org">
     <img src="https://www.scala-js.org/assets/badges/scalajs-0.6.17.svg"/>
   </a>
-  <img src="https://img.shields.io/maven-central/v/me.shadaj/slinky-styled-components_sjs0.6_2.12.svg"/>
+  <a href="https://maven-central-latest.netlify.com/.netlify/functions/latest-link?org=me.shadaj&name=slinky-styled-components_sjs0.6_2.12&format=libraryDependencies%20%2B%3D%20%22me.shadaj%22%20%25%25%25%20%22slinky-styled-components%22%20%25%20%22VERSION%22">
+  <img src="https://maven-central-latest.netlify.com/.netlify/functions/latest-link?org=me.shadaj&name=slinky-styled-components_sjs0.6_2.12&formatRedirect=https%3A%2F%2Fimg.shields.io%2Fbadge%2Fmaven--central-VERSION-orange.svg"/>
+  </a>
 </p>
 
 ## Getting Started
