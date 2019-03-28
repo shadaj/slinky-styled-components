@@ -1,7 +1,5 @@
 package slinky
 
-import slinky.core.{Attr, AttrPair}
-
 import scala.scalajs.js
 import js.JSConverters._
 
