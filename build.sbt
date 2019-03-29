@@ -4,21 +4,21 @@ organization := "me.shadaj"
 
 name := "slinky-styled-components"
 
-scalaVersion := "2.12.7"
+scalaVersion := "2.12.8"
 
-libraryDependencies += "me.shadaj" %%% "slinky-web" % "0.5.0"
+libraryDependencies += "me.shadaj" %%% "slinky-web" % "0.6.0"
 
 libraryDependencies += "org.scalatest" %%% "scalatest" % "3.0.3" % Test
 
-npmDependencies in Test += "react" -> "16.4.0"
-npmDependencies in Test += "react-dom" -> "16.4.0"
-npmDependencies in Test += "styled-components" -> "3.4.10"
+npmDependencies in Test += "react" -> "16.8.4"
+npmDependencies in Test += "react-dom" -> "16.8.4"
+npmDependencies in Test += "styled-components" -> "4.2.0"
 jsDependencies += RuntimeDOM % Test
 
 scalacOptions += "-P:scalajs:sjsDefinedByDefault"
 scalacOptions += "-Ywarn-unused-import"
 
-addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
+addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full)
 
 // Source Generation -----------------------------
 // from styled-components/src/utils/domElements.js

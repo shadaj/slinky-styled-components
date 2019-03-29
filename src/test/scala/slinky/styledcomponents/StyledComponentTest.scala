@@ -9,7 +9,7 @@ import slinky.core.StatelessComponent
 import slinky.core.annotations.react
 import slinky.core.facade.ReactElement
 import slinky.web.ReactDOM
-import slinky.web.html.{`type`, className, h1, id}
+import slinky.web.html.{`type`, className, h1, id, ref}
 
 @react class TestComponentToExtend extends StatelessComponent {
   case class Props(a: Int, className: String = "")
@@ -156,7 +156,7 @@ class StyledComponentTest extends FunSuite {
 
     ReactDOM.render(
       comp(
-        innerRef := (e => {
+        ref := (e => {
           buttonElement = e
         })
       ),
