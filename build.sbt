@@ -4,21 +4,36 @@ organization := "me.shadaj"
 
 name := "slinky-styled-components"
 
-scalaVersion := "2.12.8"
+val scala212 = "2.12.13"
+val scala213 = "2.13.4"
 
-libraryDependencies += "me.shadaj" %%% "slinky-web" % "0.6.0"
+scalaVersion := scala213
+crossScalaVersions := Seq(scala212, scala213)
 
-libraryDependencies += "org.scalatest" %%% "scalatest" % "3.0.3" % Test
+libraryDependencies += "me.shadaj" %%% "slinky-web" % "0.6.5"
+
+libraryDependencies += "org.scalatest" %%% "scalatest" % "3.1.4" % Test
 
 npmDependencies in Test += "react" -> "16.8.4"
 npmDependencies in Test += "react-dom" -> "16.8.4"
 npmDependencies in Test += "styled-components" -> "4.2.0"
-jsDependencies += RuntimeDOM % Test
 
-scalacOptions += "-P:scalajs:sjsDefinedByDefault"
-scalacOptions += "-Ywarn-unused-import"
+requireJsDomEnv in Test := true
 
-addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full)
+scalacOptions ++= {
+  if (scalaJSVersion.startsWith("0.6.")) Seq("-P:scalajs:sjsDefinedByDefault")
+  else Nil
+}
+
+scalacOptions ++= {
+  if (scalaVersion.value == scala213) Seq("-Ymacro-annotations")
+  else Nil
+}
+
+libraryDependencies ++= {
+  if (scalaVersion.value == scala213) Seq.empty
+  else Seq(compilerPlugin(("org.scalamacros" % "paradise" % "2.1.1").cross(CrossVersion.full)))
+}
 
 // Source Generation -----------------------------
 // from styled-components/src/utils/domElements.js
