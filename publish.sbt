@@ -26,3 +26,5 @@ pomExtra in ThisBuild :=
         <url>http://shadaj.me</url>
       </developer>
     </developers>
+
+Global / useGpgPinentry := true
