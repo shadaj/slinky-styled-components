@@ -12,7 +12,7 @@ export GPG_TTY=/dev/ttys003
 
 cp publishing-setup/credentials.sbt credentials.sbt
 
-export SCALAJS_VERSION="0.6.32"
+export SCALAJS_VERSION="0.6.33"
 sbt +publishSigned
 
 export SCALAJS_VERSION="1.4.0"
